@@ -7,19 +7,23 @@ const uuid = require('uuid/v4');
 const docClient = new AWS.DynamoDB.DocumentClient({region: 'us-west-2'})
 
 exports.handler = (event, context, callback) => {
-    const params = {
-        Item: {
-            _id: uuid(),
-            date: Date.now(),
-            message: event.message
-        },
-        TableName: 'messages'
-    }
-    docClient.put(params, (err, data) => {
-        if (err) {
-            callback(err, data);
-        } else {
-            callback(null, { ...params, ...data });
+    if (event.message) {
+        const params = {
+            Item: {
+                _id: uuid(),
+                date: Date.now(),
+                message: event.message
+            },
+            TableName: 'messages'
         }
-    });
+        docClient.put(params, (err, data) => {
+            if (err) {
+                callback(err, data);
+            } else {
+                callback(null, { ...params, ...data });
+            }
+        });
+    } else {
+        callback('Error: No message provided', null);
+    }
 }
