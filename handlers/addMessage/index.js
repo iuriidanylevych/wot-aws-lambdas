@@ -1,18 +1,17 @@
 'use strict'
 
-console.log('starting addMessage lambda');
-
 const AWS = require('aws-sdk');
 const uuid = require('uuid/v4');
-const docClient = new AWS.DynamoDB.DocumentClient({region: 'us-west-2'})
+const docClient = new AWS.DynamoDB.DocumentClient({region: 'eu-west-1'})
 
 exports.handler = (event, context, callback) => {
-    if (event.message) {
+    const { message } = JSON.parse(event.body);
+    if (message) {
         const params = {
             Item: {
                 _id: uuid(),
                 date: Date.now(),
-                message: event.message
+                message
             },
             TableName: 'messages'
         }
@@ -20,7 +19,14 @@ exports.handler = (event, context, callback) => {
             if (err) {
                 callback(err, data);
             } else {
-                callback(null, { ...params, ...data });
+                const response = {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    statusCode: 200,
+                    body: JSON.stringify({ ...params, ...data }),
+                };
+                callback(null, response);
             }
         });
     } else {

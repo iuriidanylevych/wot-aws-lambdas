@@ -1,0 +1,25 @@
+{
+  "name": "wot-aws-lambdas",
+  "version": "1.0.0",
+  "description": "WOT aws lambdas",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iuriidanylevych/wot-aws-lambdas.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iuriidanylevych/wot-aws-lambdas/issues"
+  },
+  "homepage": "https://github.com/iuriidanylevych/wot-aws-lambdas#readme",
+  "devDependencies": {
+    "aws-sdk": "^2.251.1"
+  },
+  "dependencies": {
+    "uuid": "^3.2.1"
+  }
+}
